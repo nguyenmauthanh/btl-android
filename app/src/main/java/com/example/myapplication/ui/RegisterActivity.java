@@ -1,8 +1,11 @@
 package com.example.myapplication.ui;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.FileUtils;
 import android.text.method.PasswordTransformationMethod;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -14,7 +17,7 @@ import com.example.myapplication.R;
 import com.example.myapplication.db.UserSQL;
 import com.example.myapplication.model.Account;
 
-import java.util.List;
+
 
 public class RegisterActivity extends AppCompatActivity {
     private EditText edtUser, edtPass, edtConfirmPass;
@@ -67,4 +70,9 @@ public class RegisterActivity extends AppCompatActivity {
             }
         });
     }
+    public void uploadImage(Uri uri){
+
+    }
+
+
 }

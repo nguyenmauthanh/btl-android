@@ -2,7 +2,9 @@ package com.example.myapplication.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
+import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +19,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.myapplication.db.UserSQL;
 import com.example.myapplication.model.User;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import com.example.myapplication.R;
@@ -61,7 +64,13 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
         else {
             holder.txtPosition.setText("Chức vụ: Khách hàng" );
         }
-//        holder.img.setImageURI(Uri.parse(user.getImage())); // loi anh roi wtf v.cai uri nay` dung` nhu nao ong nhi.hay la thu comment xem co chay k :))
+//        try {
+//            Bitmap bitmap = MediaStore.Images.Media.getBitmap(context.getContentResolver(), Uri.parse(user.getImage()));
+//            holder.img.setImageBitmap(bitmap);
+//        } catch (IOException e) {
+//            throw new RuntimeException(e);
+//        }
+        holder.img.setImageURI(Uri.parse(user.getImage())); // loi anh roi wtf v.cai uri nay` dung` nhu nao ong nhi.hay la thu comment xem co chay k :))
         if(checkSearch) {
             holder.btnEdit.setVisibility(View.GONE);
             holder.btnDelete.setVisibility(View.GONE);

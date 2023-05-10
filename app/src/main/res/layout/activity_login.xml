@@ -46,7 +46,7 @@
         android:id="@+id/edt_username"
         android:layout_width="311dp"
         android:layout_height="46dp"
-        android:layout_marginTop="160dp"
+        android:layout_marginTop="80dp"
         android:hint="Tên đăng nhập"
         android:paddingLeft="15dp"
         android:textColorHint="#D11E2F97"
@@ -73,7 +73,7 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/edt_password"
-        android:layout_marginTop="46dp"
+        android:layout_marginTop="26dp"
         android:text="đăng nhập" />
     <LinearLayout
         android:layout_width="wrap_content"

@@ -63,21 +63,20 @@ public class AddTourActivity extends AppCompatActivity {
                 String date = txtStartDate.getText().toString();
                 String duration = edtDuration.getText().toString();
                 int tmp = radioGroup.getCheckedRadioButtonId();
-                String image = uri!=null ? uri.toString() : "";
+                String image = uri != null ? uri.toString() : "";
                 String trans = "";
-                if(tmp == btnPlane.getId()) trans = "plane";
+                if (tmp == btnPlane.getId()) trans = "plane";
                 else trans = "train";
                 if (trans.isEmpty() || duration.isEmpty() || name.isEmpty() || image.isEmpty() || total.isEmpty() || date.compareToIgnoreCase("dd/MM/yyyy") == 0) {
                     Toast.makeText(getBaseContext(), "Không được để trống thông tin", Toast.LENGTH_SHORT).show();
-                }
-                else {
-                    try{
+                } else {
+                    try {
                         UserSQL helper = new UserSQL(getBaseContext());
-                        Tour tour = new Tour(name,date,trans,duration,image,total);
+                        Tour tour = new Tour(name, date, trans, duration, image, total);
                         helper.addTour(tour);
                         Toast.makeText(getBaseContext(), "Thêm thành công", Toast.LENGTH_SHORT).show();
                         finish();
-                    }catch (NumberFormatException ex){
+                    } catch (NumberFormatException ex) {
                         Toast.makeText(getBaseContext(), "Sai định dạng lương!", Toast.LENGTH_SHORT).show();
                     }
 
@@ -102,11 +101,11 @@ public class AddTourActivity extends AppCompatActivity {
                 DatePickerDialog.OnDateSetListener dateSetListener = new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                        Log.d("hiund",dayOfMonth + "/" + (month+1 )+ "/" +year);
-                        txtStartDate.setText(dayOfMonth + "/" + (month+1 )+ "/" +year );
+                        Log.d("hiund", dayOfMonth + "/" + (month + 1) + "/" + year);
+                        txtStartDate.setText(dayOfMonth + "/" + (month + 1) + "/" + year);
                     }
                 };
-                DatePickerDialog datePickerDialog = new DatePickerDialog(AddTourActivity.this,R.style.DialogTheme,
+                DatePickerDialog datePickerDialog = new DatePickerDialog(AddTourActivity.this, R.style.DialogTheme,
                         dateSetListener, year, month, day);
                 datePickerDialog.show();
                 datePickerDialog.getButton(DatePickerDialog.BUTTON_NEGATIVE).setTextColor(Color.parseColor("#FF1E2F97"));
@@ -114,13 +113,14 @@ public class AddTourActivity extends AppCompatActivity {
             }
         });
     }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == SELECT_PHOTO && resultCode == RESULT_OK && data != null && data.getData() != null){
+        if (requestCode == SELECT_PHOTO && resultCode == RESULT_OK && data != null && data.getData() != null) {
             uri = data.getData();
             try {
-                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(),uri);
+                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
                 employImage.setImageBitmap(bitmap);
                 cameraImage.setVisibility(View.GONE);
             } catch (FileNotFoundException e) {
@@ -130,7 +130,8 @@ public class AddTourActivity extends AppCompatActivity {
             }
         }
     }
-    public void init(){
+
+    public void init() {
         edtName = findViewById(R.id.edt_name);
         btnAdd = findViewById(R.id.btn_add);
         btnCancel = findViewById(R.id.btn_cancel);
@@ -143,7 +144,8 @@ public class AddTourActivity extends AppCompatActivity {
         cameraImage = findViewById(R.id.camera);
         employView = findViewById(R.id.image_picker);
         employView.setOnClickListener(view -> {
-            Intent intent = new Intent(Intent.ACTION_PICK);
+            Intent intent = new Intent(Intent.ACTION_VIEW);
+            Log.e("OK","OK");
             intent.setType("image/*");
             startActivityForResult(intent, SELECT_PHOTO);
         });

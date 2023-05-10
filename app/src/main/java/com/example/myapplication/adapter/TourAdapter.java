@@ -2,7 +2,9 @@ package com.example.myapplication.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
+import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +21,7 @@ import com.example.myapplication.db.UserSQL;
 import com.example.myapplication.model.Account;
 import com.example.myapplication.model.Tour;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import com.example.myapplication.R;
@@ -65,6 +68,12 @@ public class TourAdapter extends RecyclerView.Adapter<TourAdapter.ItemViewHolder
         if(accountName.equalsIgnoreCase("anhtuancao") == false) {
             holder.btnEdit.setVisibility(View.GONE);
             holder.btnDelete.setVisibility(View.GONE);
+        }
+        try {
+            Bitmap bitmap = MediaStore.Images.Media.getBitmap(context.getContentResolver(), Uri.parse(listTour.get(position).getImg()));
+            holder.img.setImageBitmap(bitmap);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
         holder.btnEdit.setOnClickListener(new View.OnClickListener() {
             @Override

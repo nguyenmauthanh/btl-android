@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
 
         account = (Account) getIntent().getSerializableExtra("account");
         String accountName = account.getUsername();
-        if(accountName.equalsIgnoreCase("anhtuancao")){
+        if(accountName.equalsIgnoreCase("thanhnm")){
             initListener();
         }
         else {

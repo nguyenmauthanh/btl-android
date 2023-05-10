@@ -148,7 +148,7 @@ public class AddActivity extends AppCompatActivity {
         cameraImage = findViewById(R.id.camera);
         employView = findViewById(R.id.image_picker);
         employView.setOnClickListener(view -> {
-            Intent intent = new Intent(Intent.ACTION_PICK);
+            Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
             intent.setType("image/*");
             startActivityForResult(intent, SELECT_PHOTO);
         });

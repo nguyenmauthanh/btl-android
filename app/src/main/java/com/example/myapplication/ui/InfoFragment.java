@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -19,6 +20,8 @@ import com.example.myapplication.db.UserSQL;
 public class InfoFragment extends Fragment {
     Button btnLogout, btnChangePass;
     TextView txtUsername,txtRole;
+
+    ImageView img;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -29,6 +32,7 @@ public class InfoFragment extends Fragment {
         txtUsername = view.findViewById(R.id.txt_username);
         txtRole = view.findViewById(R.id.txt_role);
         txtUsername.setText(MainActivity.account.getUsername());
+        img = view.findViewById(R.id.im);
         if (MainActivity.account.getUsername().equalsIgnoreCase("anhtuancao")){
             txtRole.setText("Admin");
         }

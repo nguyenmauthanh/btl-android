@@ -24,6 +24,7 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Calendar;
@@ -31,6 +32,16 @@ import java.util.Calendar;
 import com.example.myapplication.R;
 import com.example.myapplication.db.UserSQL;
 import com.example.myapplication.model.User;
+import com.example.myapplication.remote.APIClient;
+import com.example.myapplication.remote.APIService;
+import com.example.myapplication.utils.Utils;
+
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class UserDetailActivity extends AppCompatActivity {
 
@@ -85,6 +96,8 @@ public class UserDetailActivity extends AppCompatActivity {
                         Toast.makeText(getBaseContext(), "Cập nhật thất bại!", Toast.LENGTH_SHORT).show();
                     }
                 }
+                File file = new File(Uri.parse(Utils.getPathFromUri(this, uri)));
+                uploadImage(file);
             }
         });
 
@@ -149,6 +162,28 @@ public class UserDetailActivity extends AppCompatActivity {
             Intent intent = new Intent(Intent.ACTION_PICK);
             intent.setType("image/*");
             startActivityForResult(intent, SELECT_PHOTO);
+        });
+    }
+
+    public void uploadImage(File file) {
+        // create multipart
+        RequestBody requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), file);
+        MultipartBody.Part body = MultipartBody.Part.createFormData("image", file.getName(), requestFile);
+
+
+        // upload
+        APIService api = APIClient.Companion.getClient().create(APIService.class);
+
+        api.postImage(body).enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+                Log.e("response",response.body());
+            }
+
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+                Log.e("fail",t.toString());
+            }
         });
     }
 }
