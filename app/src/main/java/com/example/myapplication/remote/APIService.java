@@ -1,5 +1,7 @@
 package com.example.myapplication.remote;
 
+import com.example.myapplication.model.Test;
+
 import okhttp3.MultipartBody;
 import retrofit2.Call;
 import retrofit2.http.Multipart;
@@ -10,4 +12,8 @@ public interface APIService {
     @POST("storage/uploadFile")
     @Multipart
     public Call<String> postImage(@Part MultipartBody.Part file);
+
+    @POST("post")
+    @Multipart
+    public Call<Test> uploadImagePostman(@Part MultipartBody.Part file);
 }

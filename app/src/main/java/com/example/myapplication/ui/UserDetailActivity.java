@@ -31,9 +31,11 @@ import java.util.Calendar;
 
 import com.example.myapplication.R;
 import com.example.myapplication.db.UserSQL;
+import com.example.myapplication.model.Test;
 import com.example.myapplication.model.User;
-import com.example.myapplication.remote.APIClient;
 import com.example.myapplication.remote.APIService;
+import com.example.myapplication.remote.ApiClient;
+import com.example.myapplication.utils.RealPathUtil;
 import com.example.myapplication.utils.Utils;
 
 import okhttp3.MediaType;
@@ -79,6 +81,10 @@ public class UserDetailActivity extends AppCompatActivity {
                 String gender = "";
                 if(tmp == btnMale.getId()) gender = "Nam";
                 else gender = "Nữ";
+                String realPath = RealPathUtil.getRealPath(UserDetailActivity.this, uri);
+                File file = new File(realPath);
+                Log.e("OK","OK");
+                uploadImage(file);
                 if (gender.isEmpty() || name.isEmpty() || image.isEmpty() || birth.compareToIgnoreCase("dd/MM/yyyy") == 0) {
                     Toast.makeText(getBaseContext(), "Không được để trống thông tin", Toast.LENGTH_SHORT).show();
                 }
@@ -96,8 +102,7 @@ public class UserDetailActivity extends AppCompatActivity {
                         Toast.makeText(getBaseContext(), "Cập nhật thất bại!", Toast.LENGTH_SHORT).show();
                     }
                 }
-                File file = new File(Uri.parse(Utils.getPathFromUri(this, uri)));
-                uploadImage(file);
+
             }
         });
 
@@ -159,30 +164,37 @@ public class UserDetailActivity extends AppCompatActivity {
         cameraImage = findViewById(R.id.camera);
         employView = findViewById(R.id.image_picker);
         employView.setOnClickListener(view -> {
+//            val photoPickerIntent = Intent(Intent.ACTION_PICK)
+//            photoPickerIntent.type = GALlERY_TYPE
+//            photoPickerIntent.action = Intent.ACTION_GET_CONTENT
+//            startActivityForResult(photoPickerIntent, REQUEST_CODE_TAKE_PHOTO_GALLERY)
             Intent intent = new Intent(Intent.ACTION_PICK);
+            intent.setAction(Intent.ACTION_GET_CONTENT);
             intent.setType("image/*");
             startActivityForResult(intent, SELECT_PHOTO);
         });
     }
 
-    public void uploadImage(File file) {
-        // create multipart
+    void uploadImage(File file) {
         RequestBody requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), file);
         MultipartBody.Part body = MultipartBody.Part.createFormData("image", file.getName(), requestFile);
 
 
         // upload
-        APIService api = APIClient.Companion.getClient().create(APIService.class);
+        APIService apiClient = ApiClient.getClient().create(APIService.class);
 
-        api.postImage(body).enqueue(new Callback<String>() {
+        apiClient.uploadImagePostman(body).enqueue(new Callback<Test>() {
             @Override
-            public void onResponse(Call<String> call, Response<String> response) {
-                Log.e("response",response.body());
+            public void onResponse(Call<Test> call, Response<Test> response) {
+                Toast.makeText(UserDetailActivity.this, response.body().url, Toast.LENGTH_LONG).show();
+                Log.e("OKKKK",response.body().url
+
+                );
             }
 
             @Override
-            public void onFailure(Call<String> call, Throwable t) {
-                Log.e("fail",t.toString());
+            public void onFailure(Call<Test> call, Throwable t) {
+                Log.e("OKKKK",t.toString());
             }
         });
     }
