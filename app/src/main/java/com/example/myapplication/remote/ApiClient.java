@@ -26,6 +26,6 @@ public class ApiClient {
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
         interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
         OkHttpClient client = new OkHttpClient.Builder().addInterceptor(interceptor).build();
-        return new Retrofit.Builder().baseUrl("https://postman-echo.com/").addConverterFactory(GsonConverterFactory.create()).client(client).build();
+        return new Retrofit.Builder().baseUrl("https://api.openweathermap.org/data/2.5/").addConverterFactory(GsonConverterFactory.create()).client(client).build();
     }
 }

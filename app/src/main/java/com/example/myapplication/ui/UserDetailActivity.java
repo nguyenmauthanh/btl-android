@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -24,19 +25,18 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.util.Calendar;
-
 import com.example.myapplication.R;
 import com.example.myapplication.db.UserSQL;
-import com.example.myapplication.model.Test;
 import com.example.myapplication.model.User;
 import com.example.myapplication.remote.APIService;
 import com.example.myapplication.remote.ApiClient;
 import com.example.myapplication.utils.RealPathUtil;
-import com.example.myapplication.utils.Utils;
+
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.Calendar;
 
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -81,10 +81,6 @@ public class UserDetailActivity extends AppCompatActivity {
                 String gender = "";
                 if(tmp == btnMale.getId()) gender = "Nam";
                 else gender = "Nữ";
-                String realPath = RealPathUtil.getRealPath(UserDetailActivity.this, uri);
-                File file = new File(realPath);
-                Log.e("OK","OK");
-                uploadImage(file);
                 if (gender.isEmpty() || name.isEmpty() || image.isEmpty() || birth.compareToIgnoreCase("dd/MM/yyyy") == 0) {
                     Toast.makeText(getBaseContext(), "Không được để trống thông tin", Toast.LENGTH_SHORT).show();
                 }
@@ -172,30 +168,6 @@ public class UserDetailActivity extends AppCompatActivity {
             intent.setAction(Intent.ACTION_GET_CONTENT);
             intent.setType("image/*");
             startActivityForResult(intent, SELECT_PHOTO);
-        });
-    }
-
-    void uploadImage(File file) {
-        RequestBody requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), file);
-        MultipartBody.Part body = MultipartBody.Part.createFormData("image", file.getName(), requestFile);
-
-
-        // upload
-        APIService apiClient = ApiClient.getClient().create(APIService.class);
-
-        apiClient.uploadImagePostman(body).enqueue(new Callback<Test>() {
-            @Override
-            public void onResponse(Call<Test> call, Response<Test> response) {
-                Toast.makeText(UserDetailActivity.this, response.body().url, Toast.LENGTH_LONG).show();
-                Log.e("OKKKK",response.body().url
-
-                );
-            }
-
-            @Override
-            public void onFailure(Call<Test> call, Throwable t) {
-                Log.e("OKKKK",t.toString());
-            }
         });
     }
 }

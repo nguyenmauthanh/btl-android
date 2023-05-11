@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.method.PasswordTransformationMethod;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -15,6 +16,13 @@ import com.example.myapplication.MainActivity;
 import com.example.myapplication.R;
 import com.example.myapplication.model.Account;
 import com.example.myapplication.db.*;
+import com.example.myapplication.model.Response;
+import com.example.myapplication.remote.APIService;
+import com.example.myapplication.remote.ApiClient;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+
 public class LoginActivity extends AppCompatActivity {
     private EditText edtUser, edtPass;
     private TextView register;
@@ -63,6 +71,22 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent i = new Intent(LoginActivity.this, RegisterActivity.class);
                 startActivityForResult(i, 1);
+            }
+        });
+
+        getWeather();
+    }
+    public void getWeather(){
+        APIService apiService = ApiClient.getClient().create(APIService.class);
+        apiService.getWeather("Hanoi,VN","metric","944c8a04e76f71f60e5f2866cd489069").enqueue(new Callback<Response>() {
+            @Override
+            public void onResponse(Call<Response> call, retrofit2.Response<Response> response) {
+                Log.e("OK",response.body().name);
+            }
+
+            @Override
+            public void onFailure(Call<Response> call, Throwable t) {
+
             }
         });
     }
