@@ -5,16 +5,20 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.myapplication.MainActivity;
 import com.example.myapplication.adapter.TourAdapter;
 import com.example.myapplication.db.UserSQL;
 import com.example.myapplication.model.Account;
 import com.example.myapplication.model.Tour;
+import com.example.myapplication.utils.Define;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.io.Serializable;
@@ -28,6 +32,9 @@ public class HomeFragment extends Fragment implements TourAdapter.OnItemListener
     List<Tour> listTour = new ArrayList<>();
     TourAdapter adapter;
     FloatingActionButton btnAdd;
+
+    ImageView img;
+    TextView tvTemp, tvHumidity, tvPressure;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -45,7 +52,20 @@ public class HomeFragment extends Fragment implements TourAdapter.OnItemListener
                 startActivityForResult(i, 1);
             }
         });
+        initWeatherView(view);
         return view;
+    }
+
+    public void initWeatherView(View view){
+        img = view.findViewById(R.id.image);
+        tvTemp = view.findViewById(R.id.tv_temp);
+        tvHumidity = view.findViewById(R.id.tv_humidity);
+        tvPressure = view.findViewById(R.id.tv_pressure);
+
+        Glide.with(requireContext()).load(Define.weather.displayIconUrl()).into(img);
+        tvTemp.setText(Define.weather.displayTemperature());
+        tvPressure.setText(Define.weather.displayPressure());
+        tvHumidity.setText(Define.weather.displayHumidity());
     }
 
     @Override

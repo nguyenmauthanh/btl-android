@@ -19,6 +19,7 @@ import com.example.myapplication.db.*;
 import com.example.myapplication.model.Response;
 import com.example.myapplication.remote.APIService;
 import com.example.myapplication.remote.ApiClient;
+import com.example.myapplication.utils.Define;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -81,12 +82,13 @@ public class LoginActivity extends AppCompatActivity {
         apiService.getWeather("Hanoi,VN","metric","944c8a04e76f71f60e5f2866cd489069").enqueue(new Callback<Response>() {
             @Override
             public void onResponse(Call<Response> call, retrofit2.Response<Response> response) {
+                Define.weather = response.body();
                 Log.e("OK",response.body().name);
             }
 
             @Override
             public void onFailure(Call<Response> call, Throwable t) {
-
+                Log.e("Error",t.toString());
             }
         });
     }
