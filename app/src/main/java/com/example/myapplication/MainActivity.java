@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.example.myapplication.db.UserSQL;
 import com.example.myapplication.model.Account;
 import com.example.myapplication.model.Tour;
 import com.example.myapplication.model.User;
@@ -20,10 +21,13 @@ import com.example.myapplication.ui.SearchFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 
+import java.util.List;
+
 public class MainActivity extends AppCompatActivity {
     public static Account account;
     public static Tour tour;
     public static User user;
+    public static String uriImage;
     BottomNavigationView bottomNavigationView;
 
 
@@ -77,6 +81,15 @@ public class MainActivity extends AppCompatActivity {
         });
         bottomNavigationView.setSelectedItemId(R.id.menu1);
 
+        getInfoUser();
+
+    }
+
+    public void getInfoUser(){
+        UserSQL userSQL = new UserSQL(getBaseContext());
+        List<User> list = userSQL.getAll(account.getId());
+        uriImage = list.get(0).getImage();
+//        uriImage = userSQL.searchUserFollow(account.getId());
     }
 
     private void setCurrentFragment(Fragment fragment) {

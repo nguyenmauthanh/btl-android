@@ -25,6 +25,7 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.myapplication.MainActivity;
 import com.example.myapplication.R;
 import com.example.myapplication.db.UserSQL;
 import com.example.myapplication.model.User;
@@ -164,9 +165,9 @@ public class UserDetailActivity extends AppCompatActivity {
 //            photoPickerIntent.type = GALlERY_TYPE
 //            photoPickerIntent.action = Intent.ACTION_GET_CONTENT
 //            startActivityForResult(photoPickerIntent, REQUEST_CODE_TAKE_PHOTO_GALLERY)
-            Intent intent = new Intent(Intent.ACTION_PICK);
-            intent.setAction(Intent.ACTION_GET_CONTENT);
-            intent.setType("image/*");
+            Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+            intent.addCategory(Intent.CATEGORY_OPENABLE);
+            intent.setType("*/*");
             startActivityForResult(intent, SELECT_PHOTO);
         });
     }

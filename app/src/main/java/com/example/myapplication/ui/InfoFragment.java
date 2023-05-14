@@ -2,7 +2,10 @@ package com.example.myapplication.ui;
 
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +19,8 @@ import androidx.fragment.app.Fragment;
 import com.example.myapplication.MainActivity;
 import com.example.myapplication.R;
 import com.example.myapplication.db.UserSQL;
+
+import java.io.IOException;
 
 public class InfoFragment extends Fragment {
     Button btnLogout, btnChangePass;
@@ -31,8 +36,8 @@ public class InfoFragment extends Fragment {
         btnChangePass = view.findViewById(R.id.btn_change_pass);
         txtUsername = view.findViewById(R.id.txt_username);
         txtRole = view.findViewById(R.id.txt_role);
-        txtUsername.setText(MainActivity.account.getUsername());
         img = view.findViewById(R.id.im);
+        loadInfo();
         if (MainActivity.account.getUsername().equalsIgnoreCase("anhtuancao")){
             txtRole.setText("Admin");
         }
@@ -53,4 +58,15 @@ public class InfoFragment extends Fragment {
         });
         return view;
     }
+
+    private void loadInfo(){
+        txtUsername.setText(MainActivity.account.getUsername());
+        try {
+            Bitmap bitmap = MediaStore.Images.Media.getBitmap(requireContext().getContentResolver(), Uri.parse(MainActivity.uriImage));
+            img.setImageBitmap(bitmap);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 }

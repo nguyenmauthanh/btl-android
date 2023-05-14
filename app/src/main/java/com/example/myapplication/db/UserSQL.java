@@ -72,6 +72,15 @@ public class UserSQL extends SQLiteOpenHelper {
         SQLiteDatabase sqLiteDatabase = getReadableDatabase();
         sqLiteDatabase.execSQL(sql, agrs);
     }
+    public String searchUserFollow(Integer id){
+        String sql = "SELECT * from USER where accountID=" + id.toString();
+        SQLiteDatabase state = getReadableDatabase();
+        Cursor cursor = state.rawQuery(sql,null);
+        while (cursor.moveToNext()){
+            return cursor.getString(0);
+        }
+        return "";
+    }
     public void addUserAdmin(User user, int accountID) {
         String sql = "INSERT INTO user (name, birthday, gender, image, role, accountID)" +
                 "VALUES (?, ?, ?, ?, ?, ?)";
